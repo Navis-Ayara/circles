@@ -1,13 +1,6 @@
 import flet as ft
-from flet.auth.providers import GoogleOAuthProvider
 
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
-CLIENT_ID = os.getenv("CLIENT_ID")
-CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+from login import provider
 
 
 class LoginView(ft.View):
@@ -32,11 +25,7 @@ class LoginView(ft.View):
         </body>
         </html>
         """
-        provider = GoogleOAuthProvider(
-            client_id=CLIENT_ID,
-            client_secret=CLIENT_SECRET,
-            redirect_url="http://localhost:8550/oauth_callback"
-        )
+
         self.controls = [
             ft.Container(
                 alignment=ft.alignment.center,

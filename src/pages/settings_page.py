@@ -18,6 +18,7 @@ class SettingsPage(ft.Container):
                     title="Theme",
                     controls=[
                         ft.RadioGroup(
+                            on_change=self.change_theme,
                             value="system",
                             content=ft.Column([
                                 ft.Radio(
@@ -54,3 +55,9 @@ class SettingsPage(ft.Container):
             ),
             *controls
         ])
+    
+    def change_theme(self, e):
+        self.page.client_storage.set("theme", e.control.value)
+        self.page.theme_mode = e.control.value
+
+        self.page.update()

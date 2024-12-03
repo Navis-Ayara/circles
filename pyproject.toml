@@ -1,7 +1,7 @@
 [project]
 name = "circles"
 version = "0.1.0"
-description = ""
+description = "A minimalist's social media platform"
 readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
@@ -19,10 +19,10 @@ org = "com.mycompany"
 product = "Circles"
 
 # company name to display in about app dialogs
-company = "Flet"
+company = "Nayara Labs"
 
 # copyright text to display in about app dialogs
-copyright = "Copyright (C) 2024 by Flet"
+copyright = "Copyright (C) 2024 by Navis Ayara"
 
 [tool.flet.app]
 path = "src"

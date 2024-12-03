@@ -1,4 +1,6 @@
 import flet as ft
+from flet.security import encrypt, decrypt
+import os
 
 from circles_theme import theme, dark_theme
 
@@ -9,30 +11,37 @@ from pages.messages_page import MessagesPage
 from pages.settings_page import SettingsPage
 
 from login_view import LoginView
+from login import provider
+secret_key = os.getenv("MY_APP_SECRET_KEY")
 
 def main(page: ft.Page):
     page.title = "Circles"
     page.theme = theme
     page.dark_theme = dark_theme
-    page.theme_mode = ft.ThemeMode.LIGHT
+    page.client_storage.set("theme", "system")
+    page.theme_mode = page.client_storage.get("theme")
 
     def on_login(e):
         page.session.set("username", page.auth.user["name"])
         page.session.set("email", page.auth.user["email"])
-        page.session.set("access_token", page.auth.token.access_token)
         page.session.set("img_url", page.auth.user["picture"])
 
         page.appbar.actions[0].content.foreground_image_src = page.session.get('img_url')
         user_dialog.content.content.controls[0].foreground_image_src = page.session.get('img_url')
         user_dialog.content.content.controls[1].value = page.session.get('username')
 
+        jt=page.auth.token.to_json()
+
+        ejt = encrypt(jt, secret_key)
+
+        page.client_storage.set("myapp.auth_token", ejt)
+
         page.go("/")
 
     def on_logout(e):
+        page.session.clear()
+        page.client_storage.clear()
         page.go("/login")
-
-    page.on_login = on_login
-    page.on_logout = on_logout
 
     def on_route_change(e):
         page.views.clear()
@@ -40,7 +49,6 @@ def main(page: ft.Page):
             case "/":
                 if not page.auth:
                     page.go("/login")
-
                 else:
                     page.views.append(
                         ft.View(
@@ -49,7 +57,6 @@ def main(page: ft.Page):
                             controls=page.controls
                         )
                     )
-
             case "/login":
                 if page.auth:
                     page.go("/")
@@ -66,6 +73,8 @@ def main(page: ft.Page):
         top_view = page.views[-1]
         page.go(top_view.route)
 
+    page.on_login = on_login
+    page.on_logout = on_logout
     page.on_route_change = on_route_change
     page.on_view_pop = on_view_pop
 
@@ -193,6 +202,11 @@ def main(page: ft.Page):
 
     page.overlay.append(user_dialog)
 
+    ejt = page.client_storage.get("myapp.auth_token")
+    if ejt:
+        jt = decrypt(ejt, secret_key)
+        page.login(provider, saved_token=jt)
+
     page.add(
         ft.Row([
             ft.Container(
@@ -206,7 +220,7 @@ def main(page: ft.Page):
         ], expand=True)
     )
 
-    open_active_page("Settings")
+    open_active_page("Home")
 
     page.go(page.route)
 
