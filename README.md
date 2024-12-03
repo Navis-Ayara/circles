@@ -1,6 +1,6 @@
 # Flet app
 
-A simple Flet app.
+A simple social media Flet app.
 
 To run the app:
 
