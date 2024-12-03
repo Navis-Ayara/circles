@@ -52,4 +52,4 @@ Contributions to the Circles project are welcome! If you'd like to report a bug,
 Circles is licensed under the [MIT License](LICENSE).
 
 ## Author
-Circles was created by [Your Name] ([your-username](https://github.com/your-username)).
+Circles was created by Navis Ayara ([your-username](https://github.com/Vavis-Ayara)).
