@@ -23,10 +23,16 @@ def main(page: ft.Page):
         page.session.set("img_url", page.auth.user["picture"])
 
         page.appbar.actions[0].content.foreground_image_src = page.session.get('img_url')
+        user_dialog.content.content.controls[0].foreground_image_src = page.session.get('img_url')
+        user_dialog.content.content.controls[1].value = page.session.get('username')
 
         page.go("/")
 
+    def on_logout(e):
+        page.go("/login")
+
     page.on_login = on_login
+    page.on_logout = on_logout
 
     def on_route_change(e):
         page.views.clear()
@@ -82,7 +88,8 @@ def main(page: ft.Page):
                 content=ft.CircleAvatar(),
                 style=ft.ButtonStyle(
                     padding=4
-                )
+                ),
+                on_click=lambda _: page.open(user_dialog)
             )
         ]
     )
@@ -155,6 +162,37 @@ def main(page: ft.Page):
         )
     )
 
+    user_dialog = ft.AlertDialog(
+        shape=ft.RoundedRectangleBorder(12),
+        title=ft.Text(
+            value="Profile"
+        ),
+        content=ft.Container(
+            width=300,
+            alignment=ft.alignment.top_center,
+            content=ft.Column([
+                ft.CircleAvatar(
+                    radius=100,
+                ),
+                ft.TextField(
+                    label="Username",
+                    value="Navis Ayara"
+                ),
+                ft.ElevatedButton(
+                    icon=ft.Icons.LOGOUT_OUTLINED,
+                    text="Logout",
+                    style=ft.ButtonStyle(
+                        shape=ft.RoundedRectangleBorder(12),
+                        padding=10
+                    ),
+                    on_click=lambda _: page.logout()
+                )
+            ], horizontal_alignment=ft.CrossAxisAlignment.CENTER),
+        )
+    )
+
+    page.overlay.append(user_dialog)
+
     page.add(
         ft.Row([
             ft.Container(
@@ -165,10 +203,10 @@ def main(page: ft.Page):
                 expand=True,
                 ref=content_ref
             )
-        ], expand=True, spacing=0)
+        ], expand=True)
     )
 
-    open_active_page("Home")
+    open_active_page("Settings")
 
     page.go(page.route)
 
