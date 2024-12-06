@@ -60,6 +60,9 @@ theme = ft.Theme(
         tertiary_fixed_dim="#EFB8C8"
     ),
     appbar_theme=appbar_theme,
+    card_theme=ft.CardTheme(
+        shape=ft.RoundedRectangleBorder(12)
+    ),
 )
 
 dark_theme = ft.Theme(
@@ -113,5 +116,8 @@ dark_theme = ft.Theme(
         surface_dim="#49454F",
         tertiary_fixed_dim="#F2B8B5"
     ),
-    appbar_theme=appbar_theme
+    appbar_theme=appbar_theme,
+    card_theme=ft.CardTheme(
+        shape=ft.RoundedRectangleBorder(12)
+    ),
 )
