@@ -1,6 +1,6 @@
 import flet as ft
 
-from login import provider
+from utils.login import provider
 
 
 class LoginView(ft.View):
