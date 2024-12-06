@@ -11,7 +11,7 @@ from pages.messages_page import MessagesPage
 from pages.settings_page import SettingsPage
 
 from login_view import LoginView
-from login import provider
+from utils.login import provider
 secret_key = os.getenv("MY_APP_SECRET_KEY")
 
 def main(page: ft.Page):
@@ -79,7 +79,7 @@ def main(page: ft.Page):
     page.on_view_pop = on_view_pop
 
     sidebar_ref = ft.Ref[ft.Container]()
-    content_ref = ft.Ref[ft.Container]()
+    content_ref = ft.Ref[ft.AnimatedSwitcher]()
 
     page.appbar = ft.AppBar(
         force_material_transparency=True,
@@ -150,7 +150,6 @@ def main(page: ft.Page):
 
             self.data["is_selected"] = True
             self.build()
-            page.update()
             open_active_page(self.title)
 
 
@@ -185,7 +184,6 @@ def main(page: ft.Page):
                 ),
                 ft.TextField(
                     label="Username",
-                    value="Navis Ayara"
                 ),
                 ft.ElevatedButton(
                     icon=ft.Icons.LOGOUT_OUTLINED,
@@ -213,9 +211,15 @@ def main(page: ft.Page):
                 width=320,
                 content=rail
             ),
-            ft.Container(
+            ft.AnimatedSwitcher(
                 expand=True,
-                ref=content_ref
+                transition=ft.AnimatedSwitcherTransition.SCALE,
+                duration=200,
+                reverse_duration=100,
+                switch_in_curve=ft.AnimationCurve.EASE_OUT,
+                switch_out_curve=ft.AnimationCurve.EASE_IN,
+                ref=content_ref,
+                content=ft.Container()
             )
         ], expand=True)
     )
