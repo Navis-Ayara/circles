@@ -19,7 +19,7 @@ class SettingsPage(ft.Container):
                     controls=[
                         ft.RadioGroup(
                             on_change=self.change_theme,
-                            value="system",
+                            value=self.page.client_storage.get("theme"),
                             content=ft.Column([
                                 ft.Radio(
                                     label="Light",

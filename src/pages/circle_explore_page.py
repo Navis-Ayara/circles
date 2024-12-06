@@ -11,7 +11,7 @@ class CircleExplorePage(ft.Container):
             ft.SearchBar(
                 bar_shape=ft.RoundedRectangleBorder(12),
                 bar_leading=ft.Icon(name=ft.Icons.SEARCH),
-                bar_hint_text="Search with circle names or tags"
+                bar_hint_text="Search by circle names or topics(tags)"
             ),
             ft.GridView(
                 expand=True
