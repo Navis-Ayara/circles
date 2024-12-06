@@ -7,27 +7,27 @@ Circles is a simple, minimalist social media web application built using Python 
 ## Flet
 The entire user interface is built using Flet, a cross-platform and responsive UI framework for Python. Flet's focus on Python best practices ensures a high-quality and customizable user experience.
 
-## Firebase
-Circles uses Firebase as its backend, providing a simple and scalable solution for database management and user authentication.
+## JSON
+Circles uses JSON as its backend, providing a simple and scalable solution for database management.
 
 ### Miscellaneous
 The application uses Google OAuth 2.0 for user authentication. To run the project, you'll need to create a `.env` file and add your client ID and client secret.
 
 ### Current progress
 - [x] Main UI
-- [ ] Firebase Integration
+- [ ] JSON Integration
 - [ ] Deployment
 
 
 To run the app:
 ```
-flet run [app_directory] -p 8550
+flet run -p 8550
 ```
 ## Screenshots
 ![Circles UI](src/assets/images/screenshot.png)
 
 ## Installation and Setup
-1. Clone the repository: `git clone https://github.com/your-username/circles.git`
+1. Clone the repository: `git clone https://github.com/Navis-Ayara/circles.git`
 2. Navigate to the project directory: `cd circles`
 3. Install the required dependencies: `pip install -r requirements.txt`
 4. Create a `.env` file in the project directory and add your Google OAuth client ID and client secret:
@@ -37,10 +37,10 @@ CLIENT_ID=your_client_id
 CLIENT_SECRET=your_client_secret
 ```
 
-5. Run the application: `flet run main.py`
+5. Run the application: `flet run`
 
 ## Roadmap
-- [ ] Implement user profiles and social networking features
+- [x] Implement user profiles and social networking features
 - [ ] Add support for different types of content (e.g., images, links, polls)
 - [ ] Develop a mobile-friendly version of the application
 - [ ] Implement advanced privacy and security features
@@ -52,4 +52,4 @@ Contributions to the Circles project are welcome! If you'd like to report a bug,
 Circles is licensed under the [MIT License](LICENSE).
 
 ## Author
-Circles was created by Navis Ayara ([your-username](https://github.com/Vavis-Ayara)).
+Circles was created by Navis Ayara ([Navis-Ayara](https://github.com/Vavis-Ayara)).
