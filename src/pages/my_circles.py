@@ -1,5 +1,6 @@
 import flet as ft
 
+from utils.database import create_circle, get_circles
 
 class MyCirclesPage(ft.Column):
     def __init__(self, page: ft.Page):
@@ -10,7 +11,7 @@ class MyCirclesPage(ft.Column):
         self.circle_description = ft.Ref[ft.TextField]()
         self.circle_image = ft.Ref[ft.IconButton]()
 
-        self.my_circles = []
+        self.my_circles = list(get_circles(self.page.client_storage.get("user_id")))
 
     def build(self):
         self.spacing = 0
@@ -100,13 +101,13 @@ class MyCirclesPage(ft.Column):
                                     ),
                                 )
                             )
-                        for i in self.page.session.get("my_circles")], spacing=10, padding=ft.padding.only(left=10, right=10), expand=True)
+                        for i in self.my_circles], spacing=10, padding=ft.padding.only(left=10, right=10), expand=True)
                     ),
                     ft.ListView([
                         
                     ], spacing=10, padding=ft.padding.only(left=100, right=100), expand=True),
                 ]
-            ) if self.page.session.get("my_circles") is not None else (
+            ) if self.my_circles is not None else (
                 ft.Container(
                     expand=True,
                     alignment=ft.alignment.center,
@@ -139,16 +140,24 @@ class MyCirclesPage(ft.Column):
                 "image_url": self.circle_image.current.content.controls[0].foreground_image_src
             }
         )
+
+        create_circle(
+            self.circle_name.current.value, 
+            self.circle_description.current.value, 
+            self.page.session.get("user_id"),
+            self.page.session.get("img_url")
+        )
+
         self.circle_name.current.value = ""
         self.circle_description.current.value =""
         self.circle_image.current.content = ft.Stack([
             ft.CircleAvatar(
-                radius=140
+                radius=140,
+                foreground_image_src=self.page.session.get("img_url")
             ),
             ft.Icon(ft.Icons.PHOTO_CAMERA_OUTLINED, size=32)
         ], alignment=ft.alignment.center)
 
-        self.page.session.set("my_circles", self.my_circles)
         self.circle_create_form.open = False
 
         self.circle_create_form.update()

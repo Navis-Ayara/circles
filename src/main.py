@@ -1,6 +1,9 @@
 import flet as ft
 from flet.security import encrypt, decrypt
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from circles_theme import theme, dark_theme
 
@@ -9,6 +12,8 @@ from pages.circle_explore_page import CircleExplorePage
 from pages.my_circles import MyCirclesPage
 from pages.messages_page import MessagesPage
 from pages.settings_page import SettingsPage
+
+from utils.database import get_user_id, create_user
 
 from login_view import LoginView
 from utils.login import provider
@@ -26,9 +31,19 @@ def main(page: ft.Page):
         page.session.set("email", page.auth.user["email"])
         page.session.set("img_url", page.auth.user["picture"])
 
+        if not get_user_id(page.session.get("email")):
+            create_user(
+                username=page.session.get("username"),
+                email=page.session.get("email"),
+                profile_picture_url=page.session.get("img_url")
+            )
+        else:
+            page.client_storage.set("user_id", get_user_id("email"))
+
         page.appbar.actions[0].content.foreground_image_src = page.session.get('img_url')
         user_dialog.content.content.controls[0].foreground_image_src = page.session.get('img_url')
         user_dialog.content.content.controls[1].value = page.session.get('username')
+
 
         jt=page.auth.token.to_json()
 
